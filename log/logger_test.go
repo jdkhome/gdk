@@ -1,7 +1,7 @@
 package log
 
 import (
-	"gdk/common"
+	"github.com/jdkhome/gdk/common"
 	"testing"
 )
 

@@ -2,7 +2,7 @@ package exception
 
 import (
 	"fmt"
-	"gdk/error_code"
+	"github.com/jdkhome/gdk/error_code"
 )
 
 type BizException struct {

@@ -3,7 +3,7 @@ package exception
 import (
 	"errors"
 	"fmt"
-	"gdk/error_code"
+	"github.com/jdkhome/gdk/error_code"
 	"testing"
 )
 

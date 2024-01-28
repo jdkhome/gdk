@@ -3,7 +3,7 @@ package guc
 import (
 	"context"
 	"fmt"
-	"gdk/exception"
+	"github.com/jdkhome/gdk/exception"
 )
 
 func GoRunnable(ctx context.Context, fun func(ctx context.Context), catchList ...exception.Catch) {

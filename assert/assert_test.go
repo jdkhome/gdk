@@ -1,7 +1,7 @@
 package assert
 
 import (
-	"gdk/error_code"
+	"github.com/jdkhome/gdk/error_code"
 	"testing"
 )
 

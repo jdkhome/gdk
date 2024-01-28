@@ -3,8 +3,8 @@ package guc
 import (
 	"context"
 	"fmt"
-	"gdk/error_code"
-	"gdk/exception"
+	"github.com/jdkhome/gdk/error_code"
+	"github.com/jdkhome/gdk/exception"
 	"testing"
 	"time"
 )

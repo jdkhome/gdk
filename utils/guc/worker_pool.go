@@ -81,6 +81,13 @@ func (p *WorkerPool) Shutdown() {
 // Submit 提交任务
 func (p *WorkerPool) Submit(task *Task) error {
 	biz := []string{"WorkerPool", "Submit"}
+	// 先检查是否已关闭，避免向已关闭的 tasks 通道发送导致 panic
+	select {
+	case <-p.quit:
+		return errs.NewBizErr(biz, "协程池已关闭")
+	default:
+	}
+
 	select {
 	case p.tasks <- task:
 		return nil

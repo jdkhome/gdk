@@ -130,7 +130,7 @@ func TestWrapf(t *testing.T) {
 			biz:  biz,
 			msg:  "操作失败: %s",
 			args: []any{"参数错误"},
-			want: "[biz1|biz2]操作失败: 参数错误 Err:基础错误",
+			want: "[biz1|biz2]操作失败: 参数错误 -> 基础错误",
 		},
 		{
 			name: "空业务列表",
@@ -138,7 +138,7 @@ func TestWrapf(t *testing.T) {
 			biz:  []string{},
 			msg:  "错误",
 			args: nil,
-			want: "[]错误 Err:基础错误",
+			want: "[]错误 -> 基础错误",
 		},
 		{
 			name: "无格式化参数",
@@ -146,7 +146,7 @@ func TestWrapf(t *testing.T) {
 			biz:  []string{"single"},
 			msg:  "简单消息",
 			args: nil,
-			want: "[single]简单消息 Err:基础错误",
+			want: "[single]简单消息 -> 基础错误",
 		},
 	}
 
@@ -176,14 +176,14 @@ func TestNewBizErr(t *testing.T) {
 			biz:  biz,
 			msg:  "业务错误: %d",
 			args: []any{100},
-			want: "[testbiz]业务错误: 100 Err:[biz_error]业务错误",
+			want: "[testbiz]业务错误: 100 -> [biz_error]业务错误",
 		},
 		{
 			name: "无参数业务错误",
 			biz:  []string{"biz1", "biz2"},
 			msg:  "操作失败",
 			args: nil,
-			want: "[biz1|biz2]操作失败 Err:[biz_error]业务错误",
+			want: "[biz1|biz2]操作失败 -> [biz_error]业务错误",
 		},
 	}
 
@@ -198,6 +198,20 @@ func TestNewBizErr(t *testing.T) {
 				t.Error("NewBizErr() 生成的错误不是BizErr类型")
 			}
 		})
+	}
+}
+
+// 测试NewTimeout函数
+func TestNewTimeout(t *testing.T) {
+	err := NewTimeout([]string{"api"}, "请求超时: %dms", 3000)
+
+	if !Is(err, Timeout) {
+		t.Error("NewTimeout 生成的错误不是 Timeout 类型")
+	}
+
+	want := "[api]请求超时: 3000ms -> [timeout]超时"
+	if err.Error() != want {
+		t.Errorf("NewTimeout() = %q, want %q", err.Error(), want)
 	}
 }
 

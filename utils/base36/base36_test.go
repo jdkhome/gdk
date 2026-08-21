@@ -96,7 +96,7 @@ func TestRoundTrip(t *testing.T) {
 }
 
 func TestBase63(t *testing.T) {
-	t.Logf(Uint64ToBase36(86400000))
+	t.Log(Uint64ToBase36(86400000))
 	num, err := Base36ToUint64("0000000g")
 
 	t.Logf("num:%v err:%v", num, err)

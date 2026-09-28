@@ -21,6 +21,7 @@ go get github.com/jdkhome/gdk
 | [traces](traces/README.md) | 链路追踪，生成 traceID / spanID |
 | [tx](tx/README.md) | 循环自增计数器与事务管理器 |
 | [ctxs](ctxs/README.md) | 上下文键定义 |
+| [converter](converter/README.md) | 泛型对象转换器 |
 | [model](model/README.md) | 通用领域模型（含 IP 版本枚举） |
 | [model/i18n](model/i18n/README.md) | 国际化字符串类型 |
 | [utils/base36](utils/base36/README.md) | 36 进制编解码 |

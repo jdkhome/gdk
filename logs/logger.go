@@ -56,7 +56,13 @@ func (l *Logger) push(ctx context.Context, level Level, biz []string, msg string
 	content := fmt.Sprintf("%s [%s] [%s,%s] [%s] %s", time.Now().Format("2006-01-02 15:04:05.000"), level.Value.Name, tracer.GetTraceID(), tracer.GetSpanID(), strings.Join(biz, "|"), fmt.Sprintf(msg, args...))
 
 	for _, output := range l.Outputs {
-		if err := output.PushLog(ctx, level, content); err != nil {
+		var err error
+		if category, ok := output.(CategoryOutput); ok {
+			err = category.PushLogCategory(ctx, level, biz, content)
+		} else {
+			err = output.PushLog(ctx, level, content)
+		}
+		if err != nil {
 			panic(err) // TODO 打日志报错直接蹦进程 不太好吧
 		}
 	}

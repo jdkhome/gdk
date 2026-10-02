@@ -72,6 +72,7 @@ func TestFileOutput_PushLog(t *testing.T) {
 	dir := t.TempDir()
 	path := filepath.Join(dir, "test.log")
 	out := NewFileOutput(Level_Info, path, 1, 1, 1)
+	t.Cleanup(func() { _ = out.(*FileOutput).Close() })
 
 	if err := out.PushLog(context.Background(), Level_Info, "hello"); err != nil {
 		t.Fatalf("PushLog 错误: %v", err)

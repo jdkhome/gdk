@@ -4,10 +4,10 @@
 
 ## 内容
 
-- `Err`：带 `Code` 与 `Msg` 的错误结构，实现 `error` 接口。
+- `Err`：带 `Code` 与 `Msg` 的错误结构，`*Err` 实现 `error` 接口，格式为 `[code]msg`。
 - `DefErr`：定义一个 `*Err`。
-- `Is`：判断错误链中是否包含指定的业务错误。
-- `Wrapf`：以 `[biz]msg -> err` 形式包装底层错误。
+- `Is(err, targets ...*Err)`：用 `errors.As` 找到首个 `*Err`，按 `Code` 与任一目标比较（不比较指针或消息）。不是遍历匹配所有 `*Err`；目标需非 nil。
+- `Wrapf`：以 `[biz]msg -> err` 形式通过 `%w` 包装底层错误，业务分类用 `|` 连接。
 - `NewBizErr` / `NewTimeout`：便捷构造业务错误与超时错误。
 - 预定义错误：`UnknownErr`、`BizErr`、`Timeout`。
 
@@ -29,6 +29,6 @@ func main() {
 
 输出示例：
 
-```
-[order|create]创建订单失败: 1001 Err:[biz_error]业务错误
+```text
+[order|create]创建订单失败: 1001 -> [biz_error]业务错误
 ```

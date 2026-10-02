@@ -8,7 +8,7 @@ Go 开发工具包（Go Development Kit），提供一组可复用的基础能�
 go get github.com/jdkhome/gdk
 ```
 
-要求 Go 1.24+。
+要求 Go 1.24+；`go.mod` 声明工具链 `go1.24.7`，Go 可能根据工具链配置自动下载所需版本。
 
 ## 子包
 
@@ -17,9 +17,9 @@ go get github.com/jdkhome/gdk
 | [di](di/README.md) | 编译期依赖注入代码生成，支持泛型接口绑定、泛型 provider 与 list 注入 |
 | [enums](enums/README.md) | 泛型枚举构建器，提供类型安全的 code/value 枚举 |
 | [errs](errs/README.md) | 业务错误定义、包装与判断 |
-| [logs](logs/README.md) | 分级日志，支持控制台与文件输出 |
+| [logs](logs/README.md) | 分级日志，支持控制台、滚动文件、业务分类路由与运行上下文 |
 | [traces](traces/README.md) | 链路追踪，生成 traceID / spanID |
-| [tx](tx/README.md) | 循环自增计数器与事务管理器 |
+| [tx](tx/README.md) | 循环自增计数器与内存事务数据管理器 |
 | [ctxs](ctxs/README.md) | 上下文键定义 |
 | [converter](converter/README.md) | 泛型对象转换器 |
 | [model](model/README.md) | 通用领域模型（含 IP 版本枚举） |
@@ -49,12 +49,16 @@ func main() {
 
     err := errs.NewBizErr([]string{"demo", "create"}, "创建失败: %s", "参数错误")
     if errs.Is(err, errs.BizErr) {
-        logs.Error(ctx, []string{"demo", "create"}, err.Error())
+        logs.Error(ctx, []string{"demo", "create"}, "%s", err.Error())
     }
 }
 ```
 
+`logs` 默认写入控制台及工作目录下的 `./logs/` 滚动文件；`traces` 初始化需要系统能为 UDP 目标选择出站地址，失败会 panic，参见对应子包说明。
+
 ## 测试
+
+在仓库根目录运行：
 
 ```bash
 go test ./...

@@ -4,7 +4,7 @@
 
 ## 内容
 
-- `RandomGetFromCache`：从 `github.com/Code-Hex/go-generics-cache` 缓存中随机获取 n 条数据。
+- `RandomGetFromCache`：从 `github.com/Code-Hex/go-generics-cache` 缓存中按随机键抽取至多 n 条数据。
 
 ## 使用示例
 
@@ -29,5 +29,6 @@ func main() {
 
 ## 注意
 
-- 缓存为空或 `n <= 0` 时返回 `nil`。
-- `n` 大于缓存数量时，按缓存实际数量返回。
+- 需传入非 nil 缓存；键列表为空或 `n <= 0` 时返回 `nil`。
+- `n` 大于键数量时按键数量抽取；读取时已过期或被删除的键会被跳过，不补抽，因此最终数量可能更少。
+- 抽样不重复选择键，但不同键的值可能相同。使用 `math/rand`，不适用于安全令牌等密码学用途。

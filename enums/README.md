@@ -7,7 +7,8 @@
 - `Value`：枚举值的基础结构，包含 `Name` 与 `Desc`。
 - `Member[V]`：枚举成员，由 `Code` 与 `Value *V` 组成。
 - `Enum[M, V]`：构建完成的枚举集合，支持 `Members`、`CheckMember`、`GetByCode`。
-- `Builder[M, V]`：枚举构建器，用于按 code 添加成员并最终 `Build`。
+- `Builder[M, V]` / `NewBuilder`：枚举构建器，用于按 code 添加成员并最终 `Build`。
+- `NewEnumValue` / `NewEnumValueWithDesc`：构造基础枚举值。
 
 ## 使用示例
 
@@ -35,5 +36,6 @@ func main() {
 
 ## 注意事项
 
-- 重复添加相同 code 会触发 panic。
-- `Build` 之后不能再继续 `Add`，否则会 panic。
+- 重复添加相同 code 会触发 panic；`Build` 之后不能再继续 `Add`，否则会 panic。构建阶段不要并发调用 `Add` / `Build`。
+- `Members` 顺序不保证与添加顺序一致，返回内部切片而非副本；成员的 `Value` 也是共享指针，应只读使用。
+- `CheckMember` 仅检查 code 是否存在，不校验 value；`GetByCode` 未命中时返回保留查询 code、`Value` 为 nil 的成员和 false，需先检查布尔结果。
